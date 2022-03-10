@@ -1,26 +1,57 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {Button} from './components/Button';
+import {NewComponent} from "./NewComponent";
+
+export type FilterType = "all" | "ruble" | "dollar"
 
 function App() {
 
-    const Button1Foo = (subscriber: string, age: number, address: string) => {
-        console.log(subscriber, age, address)
+    const [money, setMoney] = useState([
+        {banknots: 'Dollars', nominal: 100, number: ' a1234567890'},
+        {banknots: 'Dollars', nominal: 50, number: ' z1234567890'},
+        {banknots: 'RUBLS', nominal: 100, number: ' w1234567890'},
+        {banknots: 'Dollars', nominal: 100, number: ' e1234567890'},
+        {banknots: 'Dollars', nominal: 50, number: ' c1234567890'},
+        {banknots: 'RUBLS', nominal: 100, number: ' r1234567890'},
+        {banknots: 'Dollars', nominal: 50, number: ' x1234567890'},
+        {banknots: 'RUBLS', nominal: 50, number: ' v1234567890'},
+    ])
+
+    const [filter, setFilter] = useState("all")
+
+    let currentMoney = money
+
+    if (filter === "ruble") {
+        currentMoney = money.filter(filteredMoney => filteredMoney.banknots === "RUBLS")
+    }
+    if (filter === "dollar") {
+        currentMoney = money.filter(filteredMoney => filteredMoney.banknots === "Dollars")
     }
 
-    const Button2Foo = (subscriber: string) => {
-        console.log(subscriber)
+    const onClickFilterHandler = (nameButton: FilterType) => {
+        setFilter(nameButton)
     }
 
-    const Button3Foo = () => {
-        console.log("Im stupid button")
-    }
     return (
-        <div className={"App"}>
-            <Button name={"MyYouTubeChannel-1"} callBack={() => Button1Foo("Im Vasya", 21, "live in Minsk")}/>
-            <Button name={"MyYouTubeChannel-2"} callBack={() => Button2Foo("Im Ivan")}/>
-            <Button name={"Stupid Button"} callBack={Button3Foo}/>
-        </div>
+        <>
+            <NewComponent money={currentMoney} onClickFilterHandler={onClickFilterHandler} />
+            {/*<ul>*/}
+            {/*    {currentMoney.map((objFromMoneyArr, index) => {*/}
+            {/*        return (*/}
+            {/*            <li key={index}>*/}
+            {/*                <span>{objFromMoneyArr.banknots} </span>*/}
+            {/*                <span>{objFromMoneyArr.nominal} </span>*/}
+            {/*                <span>{objFromMoneyArr.number} </span>*/}
+            {/*            </li>*/}
+            {/*        )*/}
+            {/*    })}*/}
+            {/*</ul>*/}
+            {/*<div style={{marginLeft:"35px"}}>*/}
+            {/*    <button onClick={() => onClickFilterHandler("all")}>all</button>*/}
+            {/*    <button onClick={() => onClickFilterHandler("ruble")}>ruble</button>*/}
+            {/*    <button onClick={() => onClickFilterHandler("dollar")}>dollar</button>*/}
+            {/*</div>*/}
+        </>
     )
 }
 
